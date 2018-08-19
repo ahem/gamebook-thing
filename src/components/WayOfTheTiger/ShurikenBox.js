@@ -55,6 +55,7 @@ const wrapEvent = cb => e => {
 const ShurikenBox = ({ count, onChange }: Props) => (
     <Root onClick={wrapEvent(() => onChange && onChange(count + 1))}>
         {seq(count).fill(<Shuriken onClick={wrapEvent(() => onChange && onChange(count - 1))} />)}
+        <ShurikenWrapper />
     </Root>
 );
 
