@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover"> 
+    <title><%= htmlWebpackPlugin.options.title %></title>
+    <%= htmlWebpackPlugin.files.css.map(cssFile => `<style>${compilation.assets[cssFile.substr(htmlWebpackPlugin.files.publicPath.length)].source()}</style>`) %>
+  </head>
+  <body>
+      <div id="app"></div>
+      <%= htmlWebpackPlugin.files.js.map(jsFile => `<script>${compilation.assets[jsFile.substr(htmlWebpackPlugin.files.publicPath.length)].source()}</script>`) %>
+  </body>
+</html>

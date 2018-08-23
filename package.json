@@ -5,7 +5,10 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "storybook": "start-storybook -p 9001 -c .storybook"
+    "storybook": "start-storybook -p 9001 -c .storybook",
+    "build-dev": "webpack --mode development --module-bind js=babel-loader ./src/WayOfTheTiger.js --plugin 'html-webpack-plugin?inject=false&template=template.html'",
+    "dev": "webpack-dev-server --host 0.0.0.0 --mode development -d --module-bind js=babel-loader ./src/WayOfTheTiger.js --plugin 'html-webpack-plugin?inject=false&template=template.html'",
+    "build": "webpack --mode production -p --module-bind js=babel-loader WayOfTheTiger=./src/WayOfTheTiger.js --plugin 'html-webpack-plugin?filename=WayOfTheTiger.html&title=Way of the Tiger'"
   },
   "author": "",
   "license": "ISC",
@@ -22,12 +25,14 @@
     "@babel/preset-react": "^7.0.0-rc.1",
     "@storybook/react": "^4.0.0-alpha.16",
     "babel-eslint": "^8.2.6",
+    "babel-preset-stage-3": "^6.24.1",
     "eslint": "^5.4.0",
     "eslint-config-prettier": "^3.0.1",
     "eslint-plugin-flowtype": "^2.50.0",
     "eslint-plugin-prettier": "^2.6.2",
     "eslint-plugin-react": "^7.11.1",
     "flow-bin": "^0.79.1",
+    "html-webpack-plugin": "^3.2.0",
     "prettier": "^1.14.2",
     "prettier-eslint": "^8.8.2",
     "react-textarea-autosize": "^7.0.4",
@@ -80,6 +85,7 @@
   ],
   "babel": {
     "presets": [
+      "stage-3",
       "react",
       "env"
     ],

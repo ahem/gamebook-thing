@@ -8,17 +8,19 @@ import Bookmark from './Bookmark';
 import EncounterBox from './EncounterBox';
 import ItemList from './ItemList';
 import ToolList from './ToolList';
+import DiceButton from './DiceButton';
 import { phoneMedia, font } from './common';
 
 const Root = styled.div`
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-gap: 6px 12px;
+    grid-template-columns: repeat(6, 1fr) 0px calc(50% - 12px);
     grid-template-rows: auto auto auto 1fr;
     grid-template-areas:
-        'heading heading heading heading heading heading enc enc enc enc enc enc'
-        'combat combat combat combat shuriken shuriken enc enc enc enc enc enc'
-        'combat combat combat combat tools tools enc enc enc enc enc enc'
-        'notes notes notes items items items enc enc enc enc enc enc';
+        'heading heading heading heading heading heading _ enc'
+        'combat combat combat combat shuriken shuriken _ enc'
+        'combat combat combat combat tools tools _ enc'
+        'notes notes notes items items items _ enc';
 
     @media screen and (max-width: 900px) {
         grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
@@ -30,6 +32,20 @@ const Root = styled.div`
             'notes notes notes items items items'
             'enc enc enc enc enc enc';
     }
+
+    @media ${phoneMedia} {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto;
+        grid-row-gap: 20px;
+        grid-template-areas:
+            'heading'
+            'combat'
+            'shuriken'
+            'tools'
+            'notes'
+            'items'
+            'enc';
+    }
 `;
 
 const Heading = styled.h1`
@@ -39,7 +55,6 @@ const Heading = styled.h1`
 
 const SubHeading = styled.h2`
     font: ${font};
-    text-decoration: uppercase;
     margin: 0;
 `;
 
@@ -52,11 +67,13 @@ const Wrapper = styled.div`
 
 const HeadingWrapper = styled.div`
     grid-area: heading;
+    @media ${phoneMedia} {
+        margin-bottom: -16px;
+    }
 `;
 
 const CombatRatingWrapper = styled.div`
     grid-area: combat;
-    margin: 0 12px 12px 0px;
 
     & > div:not(:last-child) {
         margin-bottom: 6px;
@@ -64,36 +81,30 @@ const CombatRatingWrapper = styled.div`
 `;
 const ShurikenWrapper = styled.div`
     grid-area: shuriken;
-    margin: 0 12px 12px 0px;
 `;
 const NinjaToolsWrapper = styled.div`
     grid-area: tools;
-    margin: 0 12px 12px 0px;
 `;
 const NotesWrapper = styled.div`
     grid-area: notes;
-    margin: 0 12px 12px 0px;
 `;
 const SpecialItemsWrapper = styled.div`
     grid-area: items;
-    margin: 0 12px 12px 0px;
 `;
 const EncounterWrapper = styled.div`
     grid-area: enc;
-    margin: 0 0px 12px 12px;
-
-    @media screen and (max-width: 900px) {
-        margin: 0 6px 12px 6px;
-    }
 `;
 
 const BookmarkWrapper = styled.div`
     grid-area: bookmark;
-    margin: 0 0px 12px 12px;
+`;
 
-    @media screen and (max-width: 900px) {
-        margin: 0 6px 12px 6px;
-    }
+const DiceWrapper = styled.div`
+    margin-top: 12px;
+    display: flex;
+    justify-content: space-around;
+    max-width: 360px;
+    margin: 12px auto;
 `;
 
 type Props = {|
@@ -192,6 +203,10 @@ const WayOfTheTigerLayout = ({
                 addItem={addEncounter}
                 addItemText="Add encounter"
             />
+            <DiceWrapper>
+                <DiceButton dice={1} />
+                <DiceButton dice={2} />
+            </DiceWrapper>
             <Heading>Bookmarks</Heading>
             <ItemList
                 items={bookmarks}

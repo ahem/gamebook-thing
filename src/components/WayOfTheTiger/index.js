@@ -3,7 +3,7 @@ import * as React from 'react';
 
 import Layout from './Layout';
 
-type LayoutProps = {|
+type State = {|
     punchModifier: string,
     kickModifier: string,
     throwModifier: string,
@@ -20,17 +20,12 @@ type LayoutProps = {|
 type Bookmark = {
     section: string,
     time: string,
-    data: LayoutProps,
 };
-
-type State = {|
-    ...LayoutProps,
-    bookmarks: Bookmark[],
-|};
 
 type Props = {
     bookmarks: Bookmark[],
-    saveBookmarks: (Bookmark[]) => mixed,
+    addBookmark: State => mixed,
+    gotoBookmark: number => ?State,
 };
 
 function updateArray<T>(arr: T[], idx: number, data: T): T[] {
@@ -65,7 +60,6 @@ class WayOfTheTiger extends React.PureComponent<Props, State> {
             notes: '',
             specialItems: '',
             encounters: [{ name: '', endurance: '' }],
-            bookmarks: props.bookmarks,
         };
     }
 
@@ -75,53 +69,33 @@ class WayOfTheTiger extends React.PureComponent<Props, State> {
         }));
     }
 
+    gotoBookmark(idx: number) {
+        const state = this.props.gotoBookmark(idx);
+        if (state) {
+            this.setState(state);
+        }
+    }
+
     addBookmark() {
-        const section: ?string = prompt('Enter section to bookmark');
-        if (typeof section === 'string') {
-            const { bookmarks: _, ...data } = this.state;
-            const time = new Date()
-                .toISOString()
-                .split('.')[0]
-                .replace('T', ' ');
-
-            this.setState(state => ({
-                bookmarks: [
-                    ...state.bookmarks,
-                    { section, time, data: JSON.parse(JSON.stringify(data)) },
-                ],
-            }));
-        }
-    }
-
-    gotoBookmark(bookmark: Bookmark) {
-        if (confirm(`Really load bookmark to section ${bookmark.section}?`)) {
-            this.setState(bookmark.data);
-        }
-    }
-
-    componentDidUpdate(prevProps: Props, prevState: State) {
-        if (prevState.bookmarks !== this.state.bookmarks) {
-            this.props.saveBookmarks(this.state.bookmarks);
-        }
+        this.props.addBookmark(this.state);
     }
 
     render() {
-        const { bookmarks, ...layoutProps } = this.state;
         return (
             <Layout
-                {...layoutProps}
-                bookmarks={(bookmarks: $FlowFixMe)}
-                onBookmarkClick={idx => this.gotoBookmark(this.state.bookmarks[idx])}
-                onPunchModifierChange={v => this.setState({ punchModifier: numbersOnly(v) })}
-                onKickModifierChange={v => this.setState({ kickModifier: numbersOnly(v) })}
-                onThrowModifierChange={v => this.setState({ throwModifier: numbersOnly(v) })}
-                onFateModifierChange={v => this.setState({ fateModifier: numbersOnly(v) })}
-                onInnerForceChange={v => this.setState({ innerForce: numbersOnly(v) })}
-                onEnduranceChange={v => this.setState({ endurance: numbersOnly(v) })}
+                {...this.state}
+                bookmarks={this.props.bookmarks}
+                onBookmarkClick={idx => this.gotoBookmark(idx)}
+                addBookmark={() => this.addBookmark()}
+                onPunchModifierChange={v => this.setState({ punchModifier: v })}
+                onKickModifierChange={v => this.setState({ kickModifier: v })}
+                onThrowModifierChange={v => this.setState({ throwModifier: v })}
+                onFateModifierChange={v => this.setState({ fateModifier: v })}
+                onInnerForceChange={v => this.setState({ innerForce: v })}
+                onEnduranceChange={v => this.setState({ endurance: v })}
                 onShurikenChange={v => this.setState({ shuriken: v })}
                 onNotesChange={s => this.setState({ notes: s })}
                 onSpecialItemsChange={s => this.setState({ specialItems: s })}
-                addBookmark={() => this.addBookmark()}
                 addEncounter={() => this.addEncounter()}
                 onNinjaToolChange={(name, active, idx) =>
                     this.setState(state => ({
