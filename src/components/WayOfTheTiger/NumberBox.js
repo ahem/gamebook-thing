@@ -36,17 +36,10 @@ type Props = {
 
 const mapChangeEvent = f => e => f(e.target.value);
 
-// const inputType =
-//     typeof navigator !== 'undefined' &&
-//     !!navigator.platform &&
-//     /iPad|iPhone|iPod/.test(navigator.platform)
-//         ? 'tel'
-//         : 'number';
-
 const NumberBox = ({ name, value, onChange }: Props) => (
     <Root>
         <Text>{name}</Text>
-        <EditField type="tel" value={value} onChange={onChange && mapChangeEvent(onChange)} />
+        <EditField type="number" value={value} onChange={onChange && mapChangeEvent(onChange)} />
     </Root>
 );
 
