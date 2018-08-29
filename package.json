@@ -8,7 +8,7 @@
     "storybook": "start-storybook -p 9001 -c .storybook",
     "build-dev": "webpack --mode development --module-bind js=babel-loader ./src/WayOfTheTiger.js --plugin 'html-webpack-plugin?inject=false&template=template.html'",
     "dev": "webpack-dev-server --host 0.0.0.0 --mode development -d --module-bind js=babel-loader ./src/WayOfTheTiger.js --plugin 'html-webpack-plugin?inject=false&template=template.html'",
-    "build": "webpack --mode production -p --module-bind js=babel-loader WayOfTheTiger=./src/WayOfTheTiger.js --plugin 'html-webpack-plugin?filename=WayOfTheTiger.html&title=Way of the Tiger'"
+    "build": "webpack --mode production -p --module-bind js=babel-loader WayOfTheTiger=./src/WayOfTheTiger.js --plugin 'html-webpack-plugin?filename=WayOfTheTiger.html&title=Way of the Tiger&inject=false&template=template.html'"
   },
   "author": "",
   "license": "ISC",
