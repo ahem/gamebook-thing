@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1, viewport-fit=cover"> 
     <title><%= htmlWebpackPlugin.options.title %></title>
+    <link href="https://fonts.googleapis.com/css?family=Gochi+Hand" rel="stylesheet">
     <%= htmlWebpackPlugin.files.css.map(cssFile => `<style>${compilation.assets[cssFile.substr(htmlWebpackPlugin.files.publicPath.length)].source()}</style>`) %>
   </head>
   <body>

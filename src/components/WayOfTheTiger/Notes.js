@@ -15,6 +15,7 @@ const TextField = styled(TextArea)`
     resize: none;
     min-height: 50px;
     font-family: 'Gochi Hand', cursive;
+    font-size: 16px;
     @media ${phoneMedia} {
         font-size: 20px;
     }
